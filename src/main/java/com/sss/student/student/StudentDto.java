@@ -30,6 +30,7 @@ public record StudentDto(
         LocalDate birthDate,
 
         @JsonProperty("school_id")
+        @NotNull(message = "School ID can not be blank")
         Long schoolId
 ){
 }
