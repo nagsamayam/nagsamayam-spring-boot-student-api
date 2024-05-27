@@ -104,6 +104,7 @@ class StudentServiceTest {
                         "john@example.com",
                         LocalDate.parse("2015-01-10")));
 
+        // When
         List<StudentResponseDto> studentResponseDtos = studentService.getAllStudents();
 
         // Then
@@ -208,4 +209,38 @@ class StudentServiceTest {
         verify(studentRepository, times(1)).save(student);
         verify(studentMapper, times(1)).toStudentResponseDto(updatedStudent);
     }
+
+    @Test
+    public void shouldFindStudentsByFirstName() {
+        // Given
+        String studentFirstName = "John";
+        Student student = new Student(
+                "John",
+                "Doe",
+                "john@example.com",
+                LocalDate.parse("2015-01-10"));
+
+        student.setId(1L);
+        student.setUuid(UUID.randomUUID());
+
+        List<Student> studentList = new ArrayList<>();
+        studentList.add(student);
+
+        // Mock the calls
+        when(studentRepository.findAllByFirstNameContaining(studentFirstName)).thenReturn(studentList);
+        when(studentMapper.toStudentResponseDto(any(Student.class)))
+                .thenReturn(new StudentResponseDto(student.getUuid(),
+                        "John",
+                        "Doe",
+                        "john@example.com",
+                        LocalDate.parse("2015-01-10")));
+
+        // When
+        List<StudentResponseDto> studentResponseDtos = studentService.getStudentsByFirstName(studentFirstName);
+
+        // Then
+        assertEquals(studentList.size(), studentResponseDtos.size());
+        verify(studentRepository, times(1)).findAllByFirstNameContaining(studentFirstName);
+    }
+
 }

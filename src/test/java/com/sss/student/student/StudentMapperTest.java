@@ -17,6 +17,7 @@ class StudentMapperTest {
 
     @Test
     public void shouldMapStudentDtoToStudent() {
+        // Given
        var studentDto = new StudentDto(
                "Sachin",
                "Tendulkar",
@@ -24,8 +25,10 @@ class StudentMapperTest {
                LocalDate.parse("2015-01-10"),
                1L);
 
+       // When
        Student student = studentMapper.toStudent(studentDto);
 
+       // Then
        assertEquals(studentDto.firstName(), student.getFirstName());
        assertEquals(studentDto.email(), student.getEmail());
        assertEquals(studentDto.birthDate(), student.getBirthDate());
@@ -41,12 +44,20 @@ class StudentMapperTest {
 
     @Test
     public void shouldMapStudentToStudentResponseDto() {
+        // Given
         Student student = new Student(
                 "Sachin",
                 "Tendulkar",
                 "sachin.tendulkar@gmail.com",
                 LocalDate.parse("2015-01-02"));
 
+        // When
         StudentResponseDto studentResponseDto = studentMapper.toStudentResponseDto(student);
+
+        // Then
+        assertEquals(studentResponseDto.uuid(), student.getUuid());
+        assertEquals(studentResponseDto.firstName(), student.getFirstName());
+        assertEquals(studentResponseDto.lastName(), student.getLastName());
+        assertEquals(studentResponseDto.email(), student.getEmail());
     }
 }
