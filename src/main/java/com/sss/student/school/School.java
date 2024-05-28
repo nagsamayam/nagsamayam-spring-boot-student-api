@@ -5,6 +5,7 @@ import com.sss.student.student.Student;
 import com.sss.student.utils.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Table(name = "schools")
 public class School extends BaseEntity {
     @Column(length = 100)
