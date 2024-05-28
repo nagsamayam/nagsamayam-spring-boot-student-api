@@ -1,26 +1,25 @@
 package com.sss.student.student;
 
+import com.sss.student.utils.jpa.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 @Entity
-public class StudentProfile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true)
-    @UuidGenerator
-    private UUID uuid;
+@Table(name = "student_profiles")
+public class StudentProfile extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "student_id")
@@ -28,15 +27,6 @@ public class StudentProfile {
 
     @Column(length = 150)
     private String bio;
-
-    @Column(nullable = false, updatable = false)
-    @CreationTimestamp
-    private LocalDate createdAt;
-
-    @UpdateTimestamp
-    private LocalDate updatedAt;
-
-    public StudentProfile(){}
 
     public StudentProfile(String bio){
         this.bio = bio;

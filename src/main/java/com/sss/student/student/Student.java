@@ -2,22 +2,23 @@ package com.sss.student.student;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sss.student.school.School;
+import com.sss.student.utils.jpa.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "students")
-public class Student {
+public class Student extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,13 +39,6 @@ public class Student {
 
     private LocalDate birthDate;
 
-    @Column(nullable = false, updatable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
     @OneToOne(
             mappedBy = "student",
             cascade = CascadeType.ALL
@@ -57,13 +51,10 @@ public class Student {
     @JsonBackReference
     private School school;
 
-    public Student(){}
-
     public Student(String firstName, String lastName, String email, LocalDate birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.birthDate = birthDate;
     }
-
 }
