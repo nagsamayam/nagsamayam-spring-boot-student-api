@@ -43,7 +43,7 @@ The app will start running at <http://localhost:8080>.
 
 The app defines following CRUD APIs.
 
-    POST /api/v1/users
+    POST /api/v1/auth/register
 
     POST /api/v1/auth/authenticate
 
