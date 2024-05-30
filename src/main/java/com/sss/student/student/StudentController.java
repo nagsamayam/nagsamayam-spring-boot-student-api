@@ -1,5 +1,6 @@
 package com.sss.student.student;
 
+import com.sss.student.utils.PaginationConstants;
 import com.sss.student.utils.string.CamelToSnakeCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/api/v1/students")
 public class StudentController {
     private final StudentService studentService;
 
@@ -73,5 +74,22 @@ public class StudentController {
         return new ResponseEntity<>(errors, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    @GetMapping("/all-with-pagination")
+    public ResponseEntity<StudentPageResponse> search(@RequestParam(defaultValue = "") String firstName,
+                             @RequestParam(defaultValue = "") String lastName,
+                             @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
+                             @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage) {
+        return ResponseEntity.ok(studentService.getAllStudentsWithPagination(page, perPage));
+    }
 
+    @GetMapping("/all-with-pagination-and-sort")
+    public ResponseEntity<StudentPageResponse> searchWithSort(
+                @RequestParam(defaultValue = "") String firstName,
+                @RequestParam(defaultValue = "") String lastName,
+                @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
+                @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage,
+                @RequestParam(defaultValue = PaginationConstants.SORT_BY, required = false) String sortBy,
+                @RequestParam(defaultValue = PaginationConstants.SORT_DIR, required = false) String sortDir) {
+        return ResponseEntity.ok(studentService.getAllStudentsWithPaginationAndSorting(page, perPage, sortBy, sortDir));
+    }
 }

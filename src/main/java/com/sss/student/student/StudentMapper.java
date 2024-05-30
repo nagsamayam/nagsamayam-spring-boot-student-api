@@ -24,11 +24,14 @@ public class StudentMapper {
 
     public StudentResponseDto toStudentResponseDto(Student student) {
         return new StudentResponseDto(
+                student.getId(),
                 student.getUuid(),
                 student.getFirstName(),
                 student.getLastName(),
                 student.getEmail(),
-                student.getBirthDate());
+                student.getBirthDate(),
+                student.getCreatedAt(),
+                student.getUpdatedAt());
 
     }
 }

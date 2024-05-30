@@ -47,18 +47,22 @@ The app defines following CRUD APIs.
 
     POST /api/v1/auth/authenticate
 
-    GET /api/students
+    GET /api/v1/students
     
-    POST /api/students
-    
-    GET /api/students/{studentUuid}
-    
-    PUT /api/students/{studentUuid}
-    
-    DELETE /api/students/{studentUuid}
+    POST /api/v1/students
 
-    GET /api/schools
+    GET api/v1/students/api/v1/students/all-with-pagination?page=1&perPage=10
 
-    POST /api/schools
+    GET api/v1/students/all-with-pagination-and-sort?sortBy=id&sortDir=asc
+    
+    GET /api/v1/students/{studentUuid}
+    
+    PUT /api/v1/students/{studentUuid}
+    
+    DELETE /api/v1/students/{studentUuid}
+
+    GET /api/v1/schools
+
+    POST /api/v1/schools
 
 You can test them using postman or any other rest client.

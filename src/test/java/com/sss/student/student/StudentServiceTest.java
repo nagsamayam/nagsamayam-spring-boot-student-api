@@ -58,11 +58,14 @@ class StudentServiceTest {
         when(studentRepository.save(student)).thenReturn(savedStudent);
         when(studentMapper.toStudentResponseDto(savedStudent))
                 .thenReturn(new StudentResponseDto(
+                        savedStudent.getId(),
                         savedStudent.getUuid(),
                         "John",
                         "Doe",
                         "john@example.com",
-                        LocalDate.parse("2015-01-10"))
+                        LocalDate.parse("2015-01-10"),
+                        savedStudent.getCreatedAt(),
+                        savedStudent.getUpdatedAt())
                 );
 
 
@@ -97,11 +100,15 @@ class StudentServiceTest {
         // Mock the calls
         when(studentRepository.findAll()).thenReturn(studentList);
         when(studentMapper.toStudentResponseDto(any(Student.class)))
-                .thenReturn(new StudentResponseDto(student.getUuid(),
+                .thenReturn(new StudentResponseDto(
+                        student.getId(),
+                        student.getUuid(),
                         "John",
                         "Doe",
                         "john@example.com",
-                        LocalDate.parse("2015-01-10")));
+                        LocalDate.parse("2015-01-10"),
+                        student.getCreatedAt(),
+                        student.getUpdatedAt()));
 
         // When
         List<StudentResponseDto> studentResponseDtos = studentService.getAllStudents();
@@ -129,11 +136,14 @@ class StudentServiceTest {
         when(studentRepository.findOneByUuid(uuid)).thenReturn(student);
         when(studentMapper.toStudentResponseDto(any(Student.class)))
                 .thenReturn(new StudentResponseDto(
+                        1L,
                         uuid,
                         "John",
                         "Doe",
                         "john@example.com",
-                        LocalDate.parse("2015-01-10")));
+                        LocalDate.parse("2015-01-10"),
+                        student.getCreatedAt(),
+                        student.getCreatedAt()));
 
         // When
         StudentResponseDto studentResponseDto = studentService.getStudentByUuid(uuid);
@@ -187,11 +197,14 @@ class StudentServiceTest {
                 .thenReturn(updatedStudent);
         when(studentMapper.toStudentResponseDto(any(Student.class)))
                 .thenReturn(new StudentResponseDto(
+                        1L,
                         uuid,
                         "Sachin",
                         "Tendulkar",
                         "sachin.tendulkar@gmail.com",
-                        LocalDate.parse("2014-01-10")
+                        LocalDate.parse("2014-01-10"),
+                        updatedStudent.getCreatedAt(),
+                        updatedStudent.getUpdatedAt()
                 ));
 
         // When
@@ -228,11 +241,14 @@ class StudentServiceTest {
         // Mock the calls
         when(studentRepository.findAllByFirstNameContaining(studentFirstName)).thenReturn(studentList);
         when(studentMapper.toStudentResponseDto(any(Student.class)))
-                .thenReturn(new StudentResponseDto(student.getUuid(),
+                .thenReturn(new StudentResponseDto(student.getId(),
+                        student.getUuid(),
                         "John",
                         "Doe",
                         "john@example.com",
-                        LocalDate.parse("2015-01-10")));
+                        LocalDate.parse("2015-01-10"),
+                        student.getCreatedAt(),
+                        student.getUpdatedAt()));
 
         // When
         List<StudentResponseDto> studentResponseDtos = studentService.getStudentsByFirstName(studentFirstName);
