@@ -75,21 +75,29 @@ public class StudentController {
     }
 
     @GetMapping("/all-with-pagination")
-    public ResponseEntity<StudentPageResponse> search(@RequestParam(defaultValue = "") String firstName,
-                             @RequestParam(defaultValue = "") String lastName,
+    public ResponseEntity<StudentPageResponse> paginate(
                              @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
                              @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage) {
         return ResponseEntity.ok(studentService.getAllStudentsWithPagination(page, perPage));
     }
 
     @GetMapping("/all-with-pagination-and-sort")
-    public ResponseEntity<StudentPageResponse> searchWithSort(
-                @RequestParam(defaultValue = "") String firstName,
-                @RequestParam(defaultValue = "") String lastName,
+    public ResponseEntity<StudentPageResponse> paginateAndSort(
                 @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
                 @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage,
                 @RequestParam(defaultValue = PaginationConstants.SORT_BY, required = false) String sortBy,
                 @RequestParam(defaultValue = PaginationConstants.SORT_DIR, required = false) String sortDir) {
         return ResponseEntity.ok(studentService.getAllStudentsWithPaginationAndSorting(page, perPage, sortBy, sortDir));
+    }
+
+    @GetMapping("/all-with-pagination-sort-and-filter")
+    public ResponseEntity<StudentPageResponse> paginateAndSortAndFilter(
+            @RequestParam(defaultValue = "") String firstName,
+            @RequestParam(defaultValue = "") String lastName,
+            @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
+            @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage,
+            @RequestParam(defaultValue = PaginationConstants.SORT_BY, required = false) String sortBy,
+            @RequestParam(defaultValue = PaginationConstants.SORT_DIR, required = false) String sortDir) {
+        return ResponseEntity.ok(studentService.getAllStudentsWithPaginationAndSortingAndFilter(firstName, lastName, page, perPage, sortBy, sortDir));
     }
 }

@@ -53,7 +53,9 @@ The app defines following CRUD APIs.
 
     GET api/v1/students/api/v1/students/all-with-pagination?page=1&perPage=10
 
-    GET api/v1/students/all-with-pagination-and-sort?sortBy=id&sortDir=asc
+    GET api/v1/students/all-with-pagination-and-sort?page=1&perPage=5&sortBy=id&sortDir=desc
+
+    GET api/v1/students/all-with-pagination-sort-and-filter?page=1&perPage=5&sortBy=id&sortDir=desc&firstName=xxx
     
     GET /api/v1/students/{studentUuid}
     

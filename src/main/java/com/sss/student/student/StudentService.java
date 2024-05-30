@@ -111,12 +111,40 @@ public class StudentService {
                 .build();
     }
 
-    public StudentPageResponse getAllStudentsWithPaginationAndSorting(int page, int perPage, String sortBy, String sortDir) {
+    public StudentPageResponse getAllStudentsWithPaginationAndSorting(
+            int page, int perPage, String sortBy, String sortDir) {
         Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 
         Pageable pageable = PageRequest.of(page, perPage, sort);
         Page<Student> studentPages = studentRepository.findAll(pageable);
+        List<Student> students = studentPages.getContent();
+
+        List<StudentResponseDto> studentDtos = new ArrayList<>();
+
+        for (Student student : students) {
+            StudentResponseDto studentResponseDto = studentMapper.toStudentResponseDto(student);
+            studentDtos.add(studentResponseDto);
+        }
+
+        return StudentPageResponse.builder()
+                .students(studentDtos)
+                .page(page)
+                .perPage(perPage)
+                .totalElements(studentPages.getTotalElements())
+                .totalPages(studentPages.getTotalPages())
+                .countInCurrentPage(studentDtos.size())
+                .hasMore(!studentPages.isLast())
+                .build();
+    }
+
+    public StudentPageResponse getAllStudentsWithPaginationAndSortingAndFilter(
+            String firstName, String lastName,int page, int perPage, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, perPage, sort);
+        Page<Student> studentPages = studentRepository.findByFirstNameLikeAndLastNameLike(firstName,lastName,pageable);
         List<Student> students = studentPages.getContent();
 
         List<StudentResponseDto> studentDtos = new ArrayList<>();
