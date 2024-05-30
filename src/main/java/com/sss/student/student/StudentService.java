@@ -1,5 +1,6 @@
 package com.sss.student.student;
 
+import com.sss.student.exceptions.StudentNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +23,13 @@ public class StudentService {
         this.studentMapper = studentMapper;
     }
 
-    public List<StudentResponseDto> getAllStudents() {
-        return studentRepository.findAll().stream().map(studentMapper::toStudentResponseDto).collect(Collectors.toList());
+    public List<StudentResponseDto> getAllStudents() throws StudentNotFoundException{
+      //  throw new StudentNotFoundException("STUDENTS_NOT_FOUND", "Students not found");
+       return studentRepository
+               .findAll()
+               .stream()
+               .map(studentMapper::toStudentResponseDto)
+               .collect(Collectors.toList());
     }
 
     public StudentResponseDto createStudent(StudentDto studentDto) {

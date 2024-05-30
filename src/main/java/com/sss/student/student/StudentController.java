@@ -24,7 +24,7 @@ public class StudentController {
 
     @GetMapping("")
     public List<StudentResponseDto> index() {
-        return studentService.getAllStudents();
+       return studentService.getAllStudents();
     }
 
     @PostMapping("")
