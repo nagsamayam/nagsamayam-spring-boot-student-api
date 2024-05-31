@@ -18,6 +18,10 @@ import java.util.UUID;
 @SuperBuilder
 @Entity
 @Table(name = "students")
+@NamedQuery(
+        name = "Student.findByEmailNamedQuery",
+        query = "select s from Student s where s.email = :email"
+)
 public class Student extends BaseEntity {
 
     @Id
