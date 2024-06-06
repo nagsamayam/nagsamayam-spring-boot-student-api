@@ -61,32 +61,19 @@ public class StudentController {
         return studentService.getStudentsByEmail(email);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        var errors = new HashMap<String, String>();
-
-        e.getBindingResult().getAllErrors().forEach(error -> {
-            var fieldName = CamelToSnakeCase.camelToSnake(((FieldError) error).getField());
-            var errorMsg = error.getDefaultMessage();
-            errors.put(fieldName, errorMsg);
-        });
-
-        return new ResponseEntity<>(errors, HttpStatus.UNPROCESSABLE_ENTITY);
-    }
-
     @GetMapping("/all-with-pagination")
     public ResponseEntity<StudentPageResponse> paginate(
-                             @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
-                             @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage) {
+            @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
+            @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage) {
         return ResponseEntity.ok(studentService.getAllStudentsWithPagination(page, perPage));
     }
 
     @GetMapping("/all-with-pagination-and-sort")
     public ResponseEntity<StudentPageResponse> paginateAndSort(
-                @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
-                @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage,
-                @RequestParam(defaultValue = PaginationConstants.SORT_BY, required = false) String sortBy,
-                @RequestParam(defaultValue = PaginationConstants.SORT_DIR, required = false) String sortDir) {
+            @RequestParam(defaultValue = PaginationConstants.PAGE_NUMBER, required = false) int page,
+            @RequestParam(defaultValue = PaginationConstants.PAGE_SIZE, required = false) int perPage,
+            @RequestParam(defaultValue = PaginationConstants.SORT_BY, required = false) String sortBy,
+            @RequestParam(defaultValue = PaginationConstants.SORT_DIR, required = false) String sortDir) {
         return ResponseEntity.ok(studentService.getAllStudentsWithPaginationAndSorting(page, perPage, sortBy, sortDir));
     }
 
@@ -100,4 +87,19 @@ public class StudentController {
             @RequestParam(defaultValue = PaginationConstants.SORT_DIR, required = false) String sortDir) {
         return ResponseEntity.ok(studentService.getAllStudentsWithPaginationAndSortingAndFilter(firstName, lastName, page, perPage, sortBy, sortDir));
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        var errors = new HashMap<String, String>();
+
+        e.getBindingResult().getAllErrors().forEach(error -> {
+            var fieldName = CamelToSnakeCase.camelToSnake(((FieldError) error).getField());
+            var errorMsg = error.getDefaultMessage();
+            errors.put(fieldName, errorMsg);
+        });
+
+        return new ResponseEntity<>(errors, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+
 }
