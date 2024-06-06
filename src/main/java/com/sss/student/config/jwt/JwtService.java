@@ -4,8 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +15,11 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
-    @Value("${application.security.jwt.secret-key}")
-    private String jwtSecretKey;
 
-    @Getter
-    @Value("${application.security.jwt.expiration}")
-    private long jwtExpiration;
+
+    private final JwtServiceConfig jwtServiceConfig;
 
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
@@ -32,7 +29,7 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+        return buildToken(extraClaims, userDetails, jwtServiceConfig.getExpiration());
     }
 
     private String buildToken(
@@ -78,7 +75,7 @@ public class JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(jwtServiceConfig.getSecretKey());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

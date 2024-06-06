@@ -1,6 +1,7 @@
 package com.sss.student.auth;
 
 import com.sss.student.config.jwt.JwtService;
+import com.sss.student.config.jwt.JwtServiceConfig;
 import com.sss.student.user.Role;
 import com.sss.student.user.User;
 import com.sss.student.user.UserRepository;
@@ -17,6 +18,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final JwtServiceConfig jwtServiceConfig;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -33,7 +35,7 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
-                .expiresIn(jwtService.getJwtExpiration())
+                .expiresIn(jwtServiceConfig.getExpiration())
                 .build();
     }
 
@@ -47,7 +49,7 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
-                .expiresIn(jwtService.getJwtExpiration())
+                .expiresIn(jwtServiceConfig.getExpiration())
                 .build();
     }
 }
